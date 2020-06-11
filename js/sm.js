@@ -52,7 +52,12 @@ function getCardInfo()
 							default:
 								edition = "Untamed";
 						}
-						bcx = xptoBCX(dist.total_xp, dist.gold, dist.edition, card.rarity, dist.num_cards);
+
+						if(card.tier == 4)
+						{
+							dist.edition = 4;
+						}
+							bcx = xptoBCX(dist.total_xp, dist.gold, dist.edition, card.rarity, dist.num_cards);
 						low_price = (info.low_price_bcx).toFixed(3);
 						marketcap = (low_price*bcx).toFixed(0)
 						cardList[i].dist.push({edition: edition, gold: dist.gold, rarity: card.rarity, bcx: bcx, supply: dist.num_cards, price: low_price});
@@ -131,13 +136,13 @@ function showInfo(id)
 	{
 		$(".id"+id).removeClass(' w3-hide');
 		$("#"+id).html("<i class='far fa-caret-square-up'></i>");
-		$(".id"+id).addClass(' w3-blue-grey');
+		$(".id"+id).addClass(' w3-light-gray');
 	}
 	else
 	{
 		$(".id"+id).addClass(' w3-hide');
 		$("#"+id).html("<i class='far fa-caret-square-down'></i>");
-		$(".id"+id).removeClass(' w3-blue-grey');
+		$(".id"+id).removeClass(' w3-light-gray');
 	}
 }
 
@@ -153,14 +158,14 @@ function showTabl(cardList)
 			img = "https://d36mxiodymuqjm.cloudfront.net/website/icons/icon-type-monster.svg"
 
 		if(i === 1)
-			clas = "w3-xxlarge w3-text-amber";
+			clas = "w3-xxlarge w3-text-amber w3-blue-grey";
 		else if(i ===2)
-			clas = "w3-xlarge w3-text-grey";
+			clas = "w3-xlarge w3-text-lightgrey w3-blue-grey";
 		else if(i===3)
-			clas = "w3-large w3-text-brown";
+			clas = "w3-large w3-text-brown w3-blue-grey";
 		else
 			clas = "w3-blue-grey";
-		$("#tabl").append("<tr onclick='showInfo("+card.id+")' class='"+clas+" w3-light-gray'><td>"+i+"</td><td><img style='width : 30px; height : 30px' class='w3-round w3-black' src='"+img+"'/> "
+		$("#tabl").append("<tr onclick='showInfo("+card.id+")' class='"+clas+"'><td>"+i+"</td><td><img style='width : 30px; height : 30px' class='w3-round w3-black' src='"+img+"'/> "
 			+card.name+"</td><td>"+new Intl.NumberFormat().format(card.marketcap)+" $</td><td>"+new Intl.NumberFormat().format(card.bcx)+" BCX</td><td>"+new Intl.NumberFormat().format(card.supply)+"</td><td id='"+card.id+"'><i class='far fa-caret-square-down'></i></td></tr>");
 		i++;
 		card.dist.forEach(function(info)
